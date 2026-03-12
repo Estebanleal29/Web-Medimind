@@ -1,0 +1,33 @@
+.back-btn {
+  color: var(--blue) !important;
+  font-family: 'Sora', sans-serif !important;
+  font-weight: 600 !important;
+  font-size: 13px !important;
+}
+
+.notif-btn { color: var(--gray-600) !important; }
+
+.user-chip {
+  display: flex; align-items: center; gap: 8px;
+  padding: 5px 12px 5px 5px;
+  background: var(--gray-50); border: 1.5px solid var(--gray-200);
+  border-radius: 50px; cursor: pointer; transition: all .15s;
+
+  &:hover { border-color: var(--blue); background: var(--blue-light); }
+}
+
+.user-avatar {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--blue); color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; font-family: 'Sora', sans-serif;
+}
+
+.user-info { line-height: 1.2; }
+.user-name {
+  display: block; font-size: 12px; font-weight: 600;
+  font-family: 'Sora', sans-serif; color: var(--gray-800);
+}
+.user-spec { display: block; font-size: 11px; color: var(--gray-500); }
+
+.chevron { font-size: 16px !important; color: var(--gray-400); }

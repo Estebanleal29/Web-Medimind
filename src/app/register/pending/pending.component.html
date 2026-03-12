@@ -1,0 +1,68 @@
+<mat-toolbar class="topbar-shared" style="justify-content:space-between;">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <span class="logo-sm">💊</span>
+    <span class="brand">MediMind</span>
+  </div>
+  <div class="p-avatar">JP</div>
+</mat-toolbar>
+
+<div class="page-container" style="max-width:620px;">
+  <mat-card>
+    <mat-card-content>
+
+      <div class="pending-icon">⏳</div>
+      <div class="chip-center"><span class="chip orange">● Verificación Pendiente</span></div>
+
+      <h2>Tu cuenta está en proceso de verificación</h2>
+      <p class="desc">Hemos recibido tu solicitud de registro profesional. Nuestro equipo
+        está revisando tu información y documentos. Este proceso normalmente
+        toma entre 24 y 48 horas hábiles.</p>
+      <p class="notify">Te notificaremos por correo electrónico cuando tu cuenta esté activa.</p>
+
+      <div class="meta-box">
+        <div class="m-item">
+          <label>Fecha de Registro</label>
+          <strong>08 Feb 2026</strong>
+        </div>
+        <div class="m-item orange">
+          <label>Estado</label>
+          <strong>En Revisión</strong>
+        </div>
+        <div class="m-item span2">
+          <label>Tiempo Estimado</label>
+          <strong>24-48 h</strong>
+        </div>
+      </div>
+
+      <h4 class="proc-title">Estado del Proceso</h4>
+      <div class="proc-list">
+        <div class="proc-item" *ngFor="let item of processItems">
+          <div class="p-icon" [class]="item.cls">{{ item.icon }}</div>
+          <div class="p-info">
+            <strong [class.gray-t]="item.cls === 'gray'">{{ item.title }}</strong>
+            <span [class]="item.textCls">{{ item.detail }}</span>
+          </div>
+          <span class="p-date">{{ item.date }}</span>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button mat-stroked-button class="btn-outline-solid">
+          <mat-icon>refresh</mat-icon> Actualizar Estado
+        </button>
+        <button mat-raised-button class="btn-primary-solid">
+          <mat-icon>email</mat-icon> Reenviar Correo
+        </button>
+      </div>
+
+      <div class="card-foot">
+        ¿Necesitas ayuda? <a class="link" (click)="goSupport()">Contacta a soporte →</a>
+      </div>
+      <div class="card-foot">
+        <a class="link" (click)="goWelcome()">
+          Ver pantalla de bienvenida (después de verificación) →
+        </a>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

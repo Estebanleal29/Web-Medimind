@@ -1,0 +1,189 @@
+<!-- NavbarComponent compartido con @Input backLabel -->
+<app-navbar backLabel="Volver al Dashboard" (backClicked)="goBack()"></app-navbar>
+
+<div class="page-container">
+
+  <!-- Loading -->
+  <div *ngIf="loading" class="loading-center">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+
+  <!-- Contenido principal: *ngIf cuando cargó el paciente -->
+  <ng-container *ngIf="patient && !loading">
+
+    <!-- Header del paciente -->
+    <mat-card class="pat-header-card">
+      <mat-card-content>
+        <div class="pat-header">
+          <div class="pat-left">
+            <div class="big-av" [style.background]="patient.avatarColor">
+              {{ patient.initials }}
+            </div>
+            <div>
+              <h2>{{ patient.name }}</h2>
+              <p class="pat-meta">ID: {{ patient.id }} · Registro: 15 Ene 2024</p>
+              <div class="pat-details">
+                <span>Edad: <strong>{{ patient.age }} años</strong></span>
+                <span>Tipo de Sangre: <strong>{{ patient.bloodType }}</strong></span>
+                <span>Teléfono: <strong>{{ patient.phone }}</strong></span>
+                <span>
+                  Alergias:
+                  <!-- *ngFor en inline -->
+                  <strong *ngFor="let a of patient.allergies; let last = last">
+                    {{ a }}{{ !last ? ', ' : '' }}
+                  </strong>
+                </span>
+                <span>
+                  Condiciones:
+                  <strong *ngFor="let c of patient.conditions; let last = last">
+                    {{ c }}{{ !last ? ', ' : '' }}
+                  </strong>
+                </span>
+              </div>
+            </div>
+          </div>
+          <!-- [ngClass] binding dinámico -->
+          <div class="adh-box" [ngClass]="patient.adherence >= 80 ? 'good' : 'low'">
+            <div class="adh-pct">{{ patient.adherence }}% ✓</div>
+            <div class="adh-lbl">Adherencia</div>
+            <div class="adh-sub">Esta Semana</div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- MatTabGroup: [selectedIndex] binding con query string -->
+    <mat-tab-group
+      animationDuration="200ms"
+      class="patient-tabs"
+      [selectedIndex]="selectedTab"
+      (selectedIndexChange)="onTabChange($event)">
+
+      <!-- ══ TAB 1: Resumen ══════════════════════════════ -->
+      <mat-tab label="📋 Resumen">
+        <div class="tab-body">
+          <h4 class="tab-title">Signos Vitales Recientes</h4>
+
+          <!-- *ngFor: vitales desde el servicio -->
+          <div class="vitals-grid">
+            <mat-card class="vital-card" *ngFor="let v of patient.vitals">
+              <span class="v-ico">{{ v.icon }}</span>
+              <div class="v-val">{{ v.value }}</div>
+              <div class="v-lbl">{{ v.label }}</div>
+            </mat-card>
+          </div>
+
+          <div class="action-btns">
+            <button mat-raised-button class="btn-primary-solid">
+              <mat-icon>add</mat-icon> Nueva Consulta
+            </button>
+            <button mat-stroked-button class="btn-outline-solid">
+              <mat-icon>medication</mat-icon> Prescribir Medicamento
+            </button>
+            <button mat-stroked-button class="btn-outline-solid">
+              <mat-icon>description</mat-icon> Ver Exámenes
+            </button>
+          </div>
+        </div>
+      </mat-tab>
+
+      <!-- ══ TAB 2: Medicamentos ═════════════════════════ -->
+      <mat-tab label="💊 Medicamentos">
+        <div class="tab-body">
+          <mat-card class="chart-card">
+            <h4 class="tab-title" style="margin-bottom:16px;">Adherencia Semanal</h4>
+            <div class="bar-chart">
+              <!-- *ngFor: días de adherencia semanal desde el servicio -->
+              <div class="bar-col" *ngFor="let d of patient.weekData">
+                <div class="bar" [class]="d.cls"
+                     [style.height.px]="d.pct || 4"></div>
+                <span class="bar-pct">{{ d.pct }}%</span>
+                <span class="bar-day">{{ d.day }}</span>
+              </div>
+            </div>
+          </mat-card>
+
+          <h4 class="tab-title">Medicamentos Actuales</h4>
+          <div class="meds-list">
+            <!-- *ngFor: medicamentos desde el servicio -->
+            <mat-card class="med-card" [class]="m.colorClass"
+                      *ngFor="let m of patient.medications">
+              <div class="med-name">💊 {{ m.name }}</div>
+              <div class="med-detail">
+                {{ m.dose }} · {{ m.frequency }} · {{ m.time }}
+              </div>
+            </mat-card>
+          </div>
+        </div>
+      </mat-tab>
+
+      <!-- ══ TAB 3: Historial ════════════════════════════ -->
+      <mat-tab label="📈 Historial">
+        <div class="tab-body">
+          <h4 class="tab-title">Historial de Consultas</h4>
+          <div class="history-list">
+            <mat-card class="history-card" *ngFor="let h of patient.history">
+              <div class="h-dot"></div>
+              <div>
+                <div class="h-date">{{ h.date }}</div>
+                <div class="h-title">{{ h.title }}</div>
+                <div class="h-desc">{{ h.desc }}</div>
+              </div>
+            </mat-card>
+          </div>
+        </div>
+      </mat-tab>
+
+      <!-- ══ TAB 4: Alarmas ══════════════════════════════ -->
+      <mat-tab label="🔔 Alarmas">
+        <div class="tab-body">
+          <h4 class="tab-title">Alarmas Activas del Paciente</h4>
+          <div class="alarm-list">
+            <mat-card class="alarm-card"
+                      [class.ok]="a.chipClass === 'orange'"
+                      *ngFor="let a of patient.alarms">
+              <div>
+                <div class="alarm-name">💊 {{ a.medication }}</div>
+                <div class="alarm-detail">
+                  {{ a.schedule }} · {{ a.detail }}
+                </div>
+              </div>
+              <span class="chip" [class]="a.chipClass">{{ a.tag }}</span>
+            </mat-card>
+          </div>
+          <div class="action-btns">
+            <button mat-raised-button class="btn-primary-solid">
+              <mat-icon>add_alarm</mat-icon> Agregar Alarma
+            </button>
+            <button mat-stroked-button class="btn-outline-solid">
+              <mat-icon>download</mat-icon> Exportar Reporte
+            </button>
+          </div>
+        </div>
+      </mat-tab>
+
+      <!-- ══ TAB 5: Documentos ═══════════════════════════ -->
+      <mat-tab label="📄 Documentos">
+        <div class="tab-body">
+          <h4 class="tab-title">Documentos</h4>
+          <p class="doc-empty">No hay documentos adjuntos aún.</p>
+          <button mat-raised-button class="btn-primary-solid">
+            <mat-icon>upload</mat-icon> Subir Documento
+          </button>
+        </div>
+      </mat-tab>
+
+    </mat-tab-group>
+
+  </ng-container>
+
+  <!-- Paciente no encontrado -->
+  <div *ngIf="!patient && !loading" class="not-found">
+    <mat-icon>person_off</mat-icon>
+    <p>Paciente no encontrado.</p>
+    <button mat-raised-button class="btn-primary-solid" (click)="goBack()">
+      Volver al Dashboard
+    </button>
+  </div>
+
+</div>

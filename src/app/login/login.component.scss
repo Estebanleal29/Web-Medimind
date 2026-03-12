@@ -1,0 +1,65 @@
+.login-page {
+  min-height: 100vh; background: var(--gray-50);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 32px 16px;
+}
+
+.login-logo {
+  text-align: center; margin-bottom: 28px;
+
+  .logo-icon {
+    font-size: 30px; width: 64px; height: 64px;
+    background: var(--blue); border-radius: 18px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 12px;
+    box-shadow: 0 4px 14px rgba(37,99,235,.35);
+  }
+  h1 { font-size: 32px; font-weight: 800; color: var(--gray-900); margin-bottom: 4px; }
+  .sub { color: var(--blue); font-size: 14px; font-weight: 500; margin: 0; }
+}
+
+.login-card {
+  width: 100%; max-width: 440px;
+  mat-card-content { padding: 28px !important; }
+  h2 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+  .card-sub { color: var(--blue); font-size: 14px; margin-bottom: 22px; }
+}
+
+.role-label {
+  font-size: 13px; font-weight: 600; color: var(--gray-700);
+  font-family: 'Sora', sans-serif; margin-bottom: 10px;
+}
+
+.role-selector { display: flex; flex-direction: column; gap: 10px; margin-bottom: 22px; }
+
+.role-option {
+  border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm);
+  padding: 16px; cursor: pointer; background: white;
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 6px;
+  font-weight: 600; font-family: 'Sora', sans-serif; font-size: 15px;
+  transition: all .18s;
+
+  .role-emoji { font-size: 28px; }
+
+  &:hover  { border-color: var(--blue); background: var(--blue-light); }
+  &.selected { border-color: var(--blue); background: var(--blue-light); color: var(--blue); }
+}
+
+mat-form-field { width: 100%; margin-bottom: 4px; }
+
+.error-msg {
+  display: flex; align-items: center; gap: 6px;
+  color: var(--red); font-size: 13px; margin-bottom: 12px;
+  mat-icon { font-size: 16px; }
+}
+
+.forgot-row { text-align: right; margin-bottom: 18px; }
+
+.full-w { width: 100%; }
+
+.footer {
+  text-align: center; margin-top: 20px;
+  color: var(--gray-500); font-size: 13px; line-height: 1.7;
+}

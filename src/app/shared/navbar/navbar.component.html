@@ -1,0 +1,46 @@
+<mat-toolbar class="topbar-shared" style="justify-content:space-between;">
+
+  <!-- Izquierda: logo + brand -->
+  <div style="display:flex;align-items:center;gap:10px;">
+    <span class="logo-sm">💊</span>
+    <span class="brand">MediMind</span>
+  </div>
+
+  <!-- Centro (opcional): botón Volver -->
+  <button *ngIf="backLabel" mat-button class="back-btn" (click)="onBack()">
+    <mat-icon>arrow_back</mat-icon>
+    {{ backLabel }}
+  </button>
+
+  <!-- Derecha: notificaciones + usuario -->
+  <div style="display:flex;align-items:center;gap:10px;">
+    <button mat-icon-button class="notif-btn">
+      <mat-icon [matBadge]="'2'" matBadgeColor="warn" matBadgeSize="small">
+        notifications
+      </mat-icon>
+    </button>
+
+    <div class="user-chip" [matMenuTriggerFor]="userMenu" *ngIf="currentUser">
+      <div class="user-avatar">{{ currentUser.initials }}</div>
+      <div class="user-info">
+        <span class="user-name">{{ currentUser.name }}</span>
+        <span class="user-spec">{{ currentUser.specialty }}</span>
+      </div>
+      <mat-icon class="chevron">expand_more</mat-icon>
+    </div>
+
+    <mat-menu #userMenu="matMenu">
+      <button mat-menu-item>
+        <mat-icon>person</mat-icon> Mi perfil
+      </button>
+      <button mat-menu-item>
+        <mat-icon>settings</mat-icon> Configuración
+      </button>
+      <mat-divider></mat-divider>
+      <button mat-menu-item (click)="logout()">
+        <mat-icon>logout</mat-icon> Cerrar sesión
+      </button>
+    </mat-menu>
+  </div>
+
+</mat-toolbar>

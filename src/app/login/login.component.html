@@ -1,0 +1,91 @@
+<div class="login-page">
+
+  <!-- Logo -->
+  <div class="login-logo">
+    <div class="logo-icon">💊</div>
+    <h1>MediMind</h1>
+    <p class="sub">Adherencia Medicamentosa</p>
+  </div>
+
+  <!-- Card -->
+  <mat-card class="login-card">
+    <mat-card-content>
+      <h2>Bienvenido de nuevo</h2>
+      <p class="card-sub">Inicia sesión para continuar</p>
+
+      <!-- Binding de datos: [class.selected] + (click) -->
+      <p class="role-label">Acceder como:</p>
+      <div class="role-selector">
+        <button class="role-option"
+                [class.selected]="selectedRole === 'medico'"
+                (click)="selectRole('medico')"
+                type="button">
+          <span class="role-emoji">👨‍⚕️</span>
+          <span>Médico</span>
+        </button>
+        <button class="role-option"
+                [class.selected]="selectedRole === 'paciente'"
+                (click)="selectRole('paciente')"
+                type="button">
+          <span class="role-emoji">😊</span>
+          <span>Paciente</span>
+        </button>
+      </div>
+
+      <!-- Reactive Form: binding con formGroup + formControlName -->
+      <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+
+        <mat-form-field appearance="outline">
+          <mat-label>Correo Electrónico</mat-label>
+          <input matInput type="email" formControlName="email"
+                 placeholder="medico@correo.com">
+          <mat-icon matSuffix>email</mat-icon>
+          <mat-error *ngIf="emailCtrl.hasError('required')">Campo requerido</mat-error>
+          <mat-error *ngIf="emailCtrl.hasError('email')">Correo inválido</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Contraseña</mat-label>
+          <!-- Property binding: [type] cambia con hidePassword -->
+          <input matInput [type]="hidePassword ? 'password' : 'text'"
+                 formControlName="password">
+          <!-- Event binding: (click) -->
+          <button mat-icon-button matSuffix type="button"
+                  (click)="hidePassword = !hidePassword">
+            <!-- Interpolación: {{ }} -->
+            <mat-icon>{{ hidePassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+          </button>
+          <mat-error *ngIf="passwordCtrl.hasError('required')">Campo requerido</mat-error>
+          <mat-error *ngIf="passwordCtrl.hasError('minlength')">Mínimo 6 caracteres</mat-error>
+        </mat-form-field>
+
+        <!-- Mensaje de error con ngIf -->
+        <div class="error-msg" *ngIf="errorMsg">
+          <mat-icon>error_outline</mat-icon> {{ errorMsg }}
+        </div>
+
+        <div class="forgot-row">
+          <a class="link">¿Olvidaste tu contraseña?</a>
+        </div>
+
+        <!-- [disabled] binding con el estado del form -->
+        <button mat-raised-button type="submit"
+                class="btn-primary-solid full-w"
+                [disabled]="loginForm.invalid || loading">
+          <!-- Spinner mientras carga -->
+          <mat-spinner *ngIf="loading" diameter="20" style="display:inline-block;margin-right:8px;"></mat-spinner>
+          {{ loading ? 'Iniciando...' : 'Iniciar Sesión' }}
+        </button>
+
+      </form>
+
+      <div class="footer">
+        ¿Aún no tienes cuenta?<br>
+        <a class="link" (click)="goToRegister()">
+          Regístrate como médico · Crear cuenta profesional →
+        </a>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+</div>

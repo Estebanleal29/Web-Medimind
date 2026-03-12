@@ -1,0 +1,145 @@
+<!-- Componente compartido NavbarComponent -->
+<app-navbar></app-navbar>
+
+<div class="page-container">
+
+  <!-- Hero Banner — property binding [style] -->
+  <div class="hero-banner">
+    <div>
+      <h2>¡Bienvenido, Dr. Pérez! 👋</h2>
+      <p>Monitorea la adherencia de tus pacientes y gestiona sus medicamentos</p>
+    </div>
+    <div class="date-box">
+      <span class="date-label">5 citas programadas hoy</span>
+      <div class="date-val">Sábado, 21<br>Feb 2026</div>
+    </div>
+  </div>
+
+  <!-- Alert banner — *ngIf binding -->
+  <div class="alert-banner">
+    <mat-icon class="alert-ico">warning</mat-icon>
+    <span>
+      <strong>2 pacientes</strong> presentan baja adherencia esta semana.
+      Revisa sus fichas para tomar acción.
+    </span>
+  </div>
+
+  <!-- Loading spinner — *ngIf -->
+  <div *ngIf="loading" class="loading-center">
+    <mat-spinner diameter="40"></mat-spinner>
+  </div>
+
+  <!-- Stats: *ngIf para mostrar sólo cuando cargó + interpolación -->
+  <div class="stats-grid" *ngIf="stats && !loading">
+    <mat-card class="stat-card">
+      <div class="stat-icon blue">👥</div>
+      <div>
+        <!-- Interpolación: {{ }} -->
+        <div class="stat-val">{{ stats.totalPatients }}</div>
+        <div class="stat-lbl">Total Pacientes</div>
+      </div>
+    </mat-card>
+    <mat-card class="stat-card">
+      <div class="stat-icon red">📅</div>
+      <div>
+        <div class="stat-val">{{ stats.todayAppts }}</div>
+        <div class="stat-lbl">Citas Hoy</div>
+      </div>
+    </mat-card>
+    <mat-card class="stat-card">
+      <div class="stat-icon green">📋</div>
+      <div>
+        <div class="stat-val">{{ stats.activePatients }}</div>
+        <div class="stat-lbl">Pacientes Activos</div>
+      </div>
+    </mat-card>
+    <mat-card class="stat-card">
+      <div class="stat-icon orange">📊</div>
+      <div>
+        <div class="stat-val">{{ stats.avgAdherence }}%</div>
+        <div class="stat-lbl">Adherencia Promedio</div>
+      </div>
+    </mat-card>
+  </div>
+
+  <!-- Patients table: MatTable + *ngFor implícito -->
+  <mat-card class="table-card" *ngIf="!loading">
+    <mat-card-header>
+      <mat-card-title>Pacientes Recientes</mat-card-title>
+      <a class="link" style="margin-left:auto;align-self:center;">Ver todos →</a>
+    </mat-card-header>
+    <mat-card-content>
+      <table mat-table [dataSource]="patients" class="patients-table">
+
+        <!-- Paciente -->
+        <ng-container matColumnDef="patient">
+          <th mat-header-cell *matHeaderCellDef>Paciente</th>
+          <td mat-cell *matCellDef="let p">
+            <div class="pat-cell">
+              <!-- Property binding: [style.background] -->
+              <div class="pat-av" [style.background]="p.avatarColor">
+                {{ p.initials }}
+              </div>
+              <div>
+                <div class="pat-name">{{ p.name }}</div>
+                <div class="pat-id">{{ p.id }}</div>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="lastVisit">
+          <th mat-header-cell *matHeaderCellDef>Última Visita</th>
+          <td mat-cell *matCellDef="let p" class="cell-txt">{{ p.lastVisit }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="nextAppt">
+          <th mat-header-cell *matHeaderCellDef>Próxima Cita</th>
+          <td mat-cell *matCellDef="let p" class="cell-txt">{{ p.nextAppt }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="adherence">
+          <th mat-header-cell *matHeaderCellDef>Adherencia</th>
+          <td mat-cell *matCellDef="let p">
+            <!-- [class] binding dinámico según valor -->
+            <span class="adh-val" [class]="adhClass(p.adherence)">
+              {{ adhArrow(p.adherence) }} {{ p.adherence }}%
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Estado</th>
+          <td mat-cell *matCellDef="let p">
+            <span class="chip" [class]="p.statusClass">{{ p.status }}</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Acciones</th>
+          <td mat-cell *matCellDef="let p">
+            <!-- (click) event binding con parámetro -->
+            <button mat-raised-button class="btn-primary-solid btn-sm"
+                    (click)="viewPatient(p)">
+              Ver Ficha
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+            class="pat-row" (click)="viewPatient(row)"></tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Quick Actions: *ngFor -->
+  <h3 class="sec-title">Acciones Rápidas</h3>
+  <div class="quick-grid">
+    <mat-card class="qa-card" *ngFor="let a of quickActions">
+      <div class="qa-icon">{{ a.icon }}</div>
+      <span>{{ a.label }}</span>
+    </mat-card>
+  </div>
+
+</div>

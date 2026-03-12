@@ -1,0 +1,38 @@
+<div class="welcome-page">
+  <div class="logo-wrap">
+    <span class="logo-icon">💊</span>
+    <span class="brand-big">MediMind</span>
+  </div>
+
+  <mat-card class="welcome-card">
+    <mat-card-content>
+      <div class="prog-bar"><div class="prog-fill"></div></div>
+
+      <div style="text-align:center;margin-bottom:12px;">
+        <span class="chip green">✓ Cuenta Verificada y Activa</span>
+      </div>
+
+      <div class="spark">✨</div>
+      <h2>¡Bienvenido a MediMind, Dr. Pérez!</h2>
+      <p class="desc">Tu cuenta profesional fue verificada exitosamente.
+        Antes de empezar, te mostramos brevemente cómo sacarle
+        el máximo provecho a la plataforma.</p>
+
+      <!-- *ngFor con interpolación de binding -->
+      <div class="features">
+        <div class="feat-item" *ngFor="let f of features">
+          <div class="feat-icon" [class]="f.cls">{{ f.icon }}</div>
+          <div>
+            <strong>{{ f.title }}</strong>
+            <span>{{ f.desc }}</span>
+          </div>
+        </div>
+      </div>
+
+      <button mat-raised-button class="btn-primary-solid"
+              style="width:100%" (click)="continue()">
+        Continuar →
+      </button>
+    </mat-card-content>
+  </mat-card>
+</div>

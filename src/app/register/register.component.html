@@ -1,0 +1,235 @@
+<div class="register-page">
+
+  <div class="reg-header">
+    <span class="logo-sm">💊</span>
+    <div>
+      <span class="brand">MediMind</span>
+      <span class="brand-sub">ADHERENCIA MEDICAMENTOSA</span>
+    </div>
+  </div>
+
+  <mat-card class="reg-card">
+    <mat-card-content>
+      <h2>Registro Profesional</h2>
+      <p class="card-sub">Únete como médico profesional</p>
+
+      <!-- MatStepper — uso de librerías Angular Material -->
+      <mat-stepper linear #stepper>
+
+        <!-- ══ PASO 1: Datos Básicos ══════════════════════ -->
+        <mat-step [stepControl]="step1" label="Datos Básicos">
+          <div class="info-banner">
+            <mat-icon>info</mat-icon>
+            <span>Este registro es exclusivo para profesionales de la salud certificados.</span>
+          </div>
+
+          <!-- Reactive Form: [formGroup] -->
+          <form [formGroup]="step1">
+
+            <mat-form-field appearance="outline">
+              <mat-label>Nombre Completo</mat-label>
+              <input matInput formControlName="nombre"
+                     placeholder="Dr. Juan Pérez González">
+              <mat-icon matPrefix>person</mat-icon>
+              <mat-error *ngIf="n.hasError('required')">Campo requerido</mat-error>
+              <mat-error *ngIf="n.hasError('minlength')">Mínimo 3 caracteres</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Correo Electrónico</mat-label>
+              <input matInput type="email" formControlName="email"
+                     placeholder="medico@correo.com">
+              <mat-icon matPrefix>email</mat-icon>
+              <mat-error *ngIf="e.hasError('required')">Campo requerido</mat-error>
+              <mat-error *ngIf="e.hasError('email')">Correo inválido</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Contraseña</mat-label>
+              <input matInput [type]="hidePass ? 'password' : 'text'"
+                     formControlName="password" placeholder="Mínimo 8 caracteres">
+              <button mat-icon-button matSuffix type="button"
+                      (click)="hidePass = !hidePass">
+                <mat-icon>{{ hidePass ? 'visibility_off' : 'visibility' }}</mat-icon>
+              </button>
+              <mat-error *ngIf="p.hasError('required')">Campo requerido</mat-error>
+              <mat-error *ngIf="p.hasError('minlength')">Mínimo 8 caracteres</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Confirmar Contraseña</mat-label>
+              <input matInput [type]="hideConfirm ? 'password' : 'text'"
+                     formControlName="confirm" placeholder="Repite la contraseña">
+              <button mat-icon-button matSuffix type="button"
+                      (click)="hideConfirm = !hideConfirm">
+                <mat-icon>{{ hideConfirm ? 'visibility_off' : 'visibility' }}</mat-icon>
+              </button>
+              <!-- Validación de coincidencia de contraseñas -->
+              <mat-error *ngIf="step1.hasError('mismatch')">Las contraseñas no coinciden</mat-error>
+            </mat-form-field>
+
+            <div class="checkbox-row">
+              <mat-checkbox formControlName="terms" color="primary">
+                Acepto los <a class="link">Términos y Condiciones</a> y la
+                <a class="link">Política de Privacidad</a>
+              </mat-checkbox>
+            </div>
+
+            <div class="step-actions">
+              <button mat-raised-button class="btn-primary-solid full-w"
+                      matStepperNext
+                      [disabled]="step1.invalid"
+                      (click)="onStep1Next()">
+                Continuar al Paso 2 →
+              </button>
+            </div>
+          </form>
+
+          <div class="footer-link">
+            <a class="link" (click)="goLogin()">Ya tengo cuenta · Iniciar sesión</a>
+          </div>
+        </mat-step>
+
+        <!-- ══ PASO 2: Info Profesional ═══════════════════ -->
+        <mat-step [stepControl]="step2" label="Info Profesional">
+          <div class="info-banner">
+            <mat-icon>info</mat-icon>
+            <span>Esta información será verificada por nuestro equipo en 24-48 horas.</span>
+          </div>
+
+          <form [formGroup]="step2">
+            <h4 class="section-title">Credenciales</h4>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Número de Matrícula Profesional</mat-label>
+              <input matInput formControlName="matricula" placeholder="MP-123456">
+              <mat-icon matPrefix>badge</mat-icon>
+            </mat-form-field>
+
+            <div class="form-row">
+              <!-- MatSelect: uso de librerías + binding -->
+              <mat-form-field appearance="outline">
+                <mat-label>Especialidad</mat-label>
+                <mat-select formControlName="especialidad">
+                  <mat-option *ngFor="let esp of especialidades" [value]="esp">
+                    {{ esp }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Años de Experiencia</mat-label>
+                <input matInput type="number" formControlName="experiencia"
+                       placeholder="Ej: 10">
+              </mat-form-field>
+            </div>
+
+            <div class="form-row">
+              <mat-form-field appearance="outline">
+                <mat-label>Universidad</mat-label>
+                <input matInput formControlName="universidad"
+                       placeholder="Nombre de la institución">
+              </mat-form-field>
+              <mat-form-field appearance="outline">
+                <mat-label>Año de Graduación</mat-label>
+                <input matInput type="number" formControlName="graduacion"
+                       placeholder="Ej: 2015">
+              </mat-form-field>
+            </div>
+
+            <h4 class="section-title">Contacto Profesional</h4>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Teléfono Profesional</mat-label>
+              <input matInput formControlName="telefono"
+                     placeholder="+57 300 123 4567">
+              <mat-icon matPrefix>phone</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Dirección del Consultorio</mat-label>
+              <input matInput formControlName="direccion"
+                     placeholder="Calle, Número, Ciudad">
+              <mat-icon matPrefix>location_on</mat-icon>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Biografía Profesional</mat-label>
+              <textarea matInput formControlName="biografia" rows="3"
+                        placeholder="Experiencia, áreas de interés, enfoque de práctica...">
+              </textarea>
+            </mat-form-field>
+
+            <h4 class="section-title">Documentos Requeridos</h4>
+
+            <label class="field-label">
+              Certificado de Matrícula Profesional <span class="req">*</span>
+            </label>
+            <div class="upload-zone">
+              <mat-icon>upload</mat-icon>
+              <p>Haz clic para subir tu certificado</p>
+              <small>PDF, JPG o PNG · Máx 5 MB</small>
+            </div>
+
+            <label class="field-label">
+              Título Universitario <span class="req">*</span>
+            </label>
+            <div class="upload-zone">
+              <mat-icon>upload</mat-icon>
+              <p>Haz clic para subir tu título</p>
+              <small>PDF, JPG o PNG · Máx 5 MB</small>
+            </div>
+
+            <div class="step-actions two">
+              <button mat-stroked-button class="btn-outline-solid"
+                      matStepperPrevious>← Volver</button>
+              <button mat-raised-button class="btn-primary-solid"
+                      matStepperNext
+                      [disabled]="step2.invalid"
+                      (click)="onStep2Next()">Continuar →</button>
+            </div>
+          </form>
+        </mat-step>
+
+        <!-- ══ PASO 3: Verificación ════════════════════════ -->
+        <mat-step label="Verificación">
+          <div class="success-section">
+            <div class="success-icon">✔</div>
+            <h3>¡Todo listo para enviar!</h3>
+            <p>Revisa que toda tu información sea correcta.</p>
+            <div class="summary-box">
+              <div class="sum-row">
+                <mat-icon>person</mat-icon>
+                <span>{{ step1.get('nombre')?.value || 'Dr. Juan Pérez' }}</span>
+              </div>
+              <div class="sum-row">
+                <mat-icon>email</mat-icon>
+                <span>{{ step1.get('email')?.value || 'medico@correo.com' }}</span>
+              </div>
+              <div class="sum-row">
+                <mat-icon>local_hospital</mat-icon>
+                <span>{{ step2.get('especialidad')?.value || 'Especialidad' }}</span>
+              </div>
+              <div class="sum-row">
+                <mat-icon>badge</mat-icon>
+                <span>{{ step2.get('matricula')?.value || 'MP-XXXXXX' }}</span>
+              </div>
+            </div>
+            <div class="step-actions">
+              <button mat-raised-button class="btn-primary-solid full-w"
+                      (click)="finish()">
+                Enviar Registro →
+              </button>
+            </div>
+            <div style="text-align:center;margin-top:10px;">
+              <button mat-stroked-button class="btn-outline-solid"
+                      matStepperPrevious>← Volver a editar</button>
+            </div>
+          </div>
+        </mat-step>
+
+      </mat-stepper>
+    </mat-card-content>
+  </mat-card>
+
+</div>

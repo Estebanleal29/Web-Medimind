@@ -1,0 +1,74 @@
+.loading-center { display:flex;justify-content:center;padding:40px 0; }
+
+.pat-header-card { margin-bottom:16px; mat-card-content{padding:20px !important;} }
+.pat-header { display:flex;align-items:flex-start;justify-content:space-between;gap:14px; }
+.pat-left { display:flex;align-items:flex-start;gap:14px; }
+.big-av { width:64px;height:64px;border-radius:50%;color:white;display:flex;align-items:center;justify-content:center;font-family:'Sora',sans-serif;font-size:20px;font-weight:700;flex-shrink:0; }
+h2 { font-size:20px;font-weight:700;margin-bottom:3px; }
+.pat-meta { font-size:12px;color:var(--gray-400);margin-bottom:8px; }
+.pat-details { display:flex;flex-direction:column;gap:3px; span{font-size:13px;color:var(--gray-600);strong{color:var(--gray-800);}} }
+
+.adh-box { border-radius:var(--radius-sm);padding:14px 18px;text-align:center;flex-shrink:0;min-width:88px;border:1.5px solid;
+  &.good { background:var(--green-light);border-color:var(--green-mid); .adh-pct,.adh-lbl,.adh-sub{color:var(--green);} }
+  &.low  { background:var(--red-light);border-color:#FECACA; .adh-pct,.adh-lbl,.adh-sub{color:var(--red);} }
+  .adh-pct { font-size:26px;font-weight:800;font-family:'Sora',sans-serif;line-height:1; }
+  .adh-lbl { font-size:11px;font-weight:600;margin-top:3px; }
+  .adh-sub { font-size:10px;opacity:.75; }
+}
+
+.patient-tabs { background:white;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;
+  ::ng-deep .mat-mdc-tab-header { border-bottom:2px solid var(--gray-100); }
+}
+
+.tab-body { padding:20px; }
+.tab-title { font-size:15px;font-weight:700;margin-bottom:14px; }
+
+.vitals-grid { display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;
+  @media (min-width:600px) { grid-template-columns:repeat(4,1fr); }
+}
+.vital-card { text-align:center;padding:18px !important;
+  .v-ico { font-size:24px;display:block;margin-bottom:8px; }
+  .v-val { font-size:20px;font-weight:800;font-family:'Sora',sans-serif; }
+  .v-lbl { font-size:11px;color:var(--gray-400);margin-top:2px; }
+}
+
+.action-btns { display:flex;gap:10px;flex-wrap:wrap;margin-top:20px; }
+
+.chart-card { padding:18px !important;margin-bottom:20px; }
+.bar-chart { display:flex;align-items:flex-end;gap:6px;height:120px; }
+.bar-col { flex:1;display:flex;flex-direction:column;align-items:center;gap:5px;
+  .bar { width:100%;border-radius:6px 6px 0 0;transition:height .3s;&.green{background:var(--green);}&.orange{background:var(--orange);}&.empty{background:var(--gray-200);} }
+  .bar-pct { font-size:11px;font-weight:700;color:var(--gray-600); }
+  .bar-day { font-size:11px;color:var(--gray-400); }
+}
+
+.meds-list { display:flex;flex-direction:column;gap:10px; }
+.med-card { padding:14px 16px !important;border-left:4px solid var(--gray-300) !important;
+  &.yellow  { border-left-color:var(--orange) !important; }
+  &.blue    { border-left-color:var(--blue) !important; }
+  &.green-b { border-left-color:var(--green) !important; }
+  .med-name   { font-weight:600;font-family:'Sora',sans-serif;font-size:14px;margin-bottom:3px; }
+  .med-detail { font-size:12px;color:var(--gray-500); }
+}
+
+.history-list { display:flex;flex-direction:column;gap:10px; }
+.history-card { padding:14px 16px !important;border-left:4px solid var(--blue) !important;display:flex;gap:12px;align-items:flex-start;
+  .h-dot { width:10px;height:10px;border-radius:50%;background:var(--blue);flex-shrink:0;margin-top:4px; }
+  .h-date  { font-size:11px;color:var(--gray-400);margin-bottom:3px; }
+  .h-title { font-size:14px;font-weight:600;font-family:'Sora',sans-serif;margin-bottom:4px; }
+  .h-desc  { font-size:12px;color:var(--gray-500);line-height:1.5; }
+}
+
+.alarm-list { display:flex;flex-direction:column;gap:10px;margin-bottom:20px; }
+.alarm-card { padding:14px 16px !important;border-left:4px solid var(--blue) !important;display:flex;justify-content:space-between;align-items:center;
+  &.ok { border-left-color:var(--orange) !important; }
+  .alarm-name   { font-weight:600;font-family:'Sora',sans-serif;font-size:14px;margin-bottom:3px; }
+  .alarm-detail { font-size:12px;color:var(--blue); }
+}
+
+.doc-empty { color:var(--blue);font-size:14px;font-weight:500;margin-bottom:16px; }
+
+.not-found { text-align:center;padding:48px 0;
+  mat-icon { font-size:48px;color:var(--gray-300);display:block;margin-bottom:12px; }
+  p { color:var(--gray-500);margin-bottom:20px; }
+}
